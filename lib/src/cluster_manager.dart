@@ -139,7 +139,15 @@ class ClusterManager<T> {
       {int level = 5}) {
     if (inputItems.isEmpty) return markerItems;
 
-    String nextGeohash = inputItems[0].geohash.substring(0, level);
+    String nextGeohash;
+    while (nextGeohash == null) {
+      try {
+        nextGeohash = inputItems[0].geohash.substring(0, level);
+      } catch (err) {
+        level -= 1;
+      }
+    }
+
 
     List<ClusterItem<T>> items = inputItems
         .where((p) => p.geohash.substring(0, level) == nextGeohash)
